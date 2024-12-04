@@ -1,0 +1,221 @@
+// ExampleUsage.cs
+using System;
+using UnityEngine;
+using MultiEI.Client;
+using MultiEI.Models;
+using MultiEI.Utilities;
+
+public class ExampleUsage : MonoBehaviour
+{
+    private MultiEIClient _multiEIClient;
+
+    void Start()
+    {
+        // Initialize the client with your server URL
+        _multiEIClient = new MultiEIClient("http://localhost:3000");
+
+        // Subscribe to events
+        _multiEIClient.OnConnected += HandleConnected;
+        _multiEIClient.OnDisconnected += HandleDisconnected;
+
+        _multiEIClient.OnPlayerInitialized += HandlePlayerInitialized;
+        _multiEIClient.OnNetworkConnect += HandleNetworkConnect;
+        _multiEIClient.OnNetworkDisconnected += HandleNetworkDisconnected;
+
+        _multiEIClient.OnInstanceStarted += HandleInstanceStarted;
+        _multiEIClient.OnInstanceDeleted += HandleInstanceDeleted;
+        _multiEIClient.OnMasterChanged += HandleMasterChanged;
+
+        _multiEIClient.OnPlayerJoined += HandlePlayerJoined;
+        _multiEIClient.OnPlayerLeft += HandlePlayerLeft;
+        _multiEIClient.OnPlayerKicked += HandlePlayerKicked;
+
+        _multiEIClient.OnObjectPositionUpdated += HandleObjectPositionUpdated;
+        _multiEIClient.OnObjectOwnershipReverted += HandleObjectOwnershipReverted;
+        _multiEIClient.OnObjectOwnerSet += HandleObjectOwnerSet;
+
+        _multiEIClient.OnPlayerTalking += HandlePlayerTalking;
+
+        _multiEIClient.OnVoteKickInitiated += HandleVoteKickInitiated;
+        _multiEIClient.OnVoteInstance += HandleVoteInstance;
+        _multiEIClient.OnVoteReverted += HandleVoteReverted;
+
+        _multiEIClient.OnAvatarChanged += HandleAvatarChanged;
+        _multiEIClient.OnAvatarElementChanged += HandleAvatarElementChanged;
+
+        _multiEIClient.OnPortalDropped += HandlePortalDropped;
+
+        _multiEIClient.OnEmojiSent += HandleEmojiSent;
+
+        _multiEIClient.OnMessageReceived += HandleMessageReceived;
+        _multiEIClient.OnPlayerTyping += HandlePlayerTyping;
+        _multiEIClient.OnPlayerStopTyping += HandlePlayerStopTyping;
+
+        _multiEIClient.OnError += HandleError;
+
+        // Connect to the server
+        _multiEIClient.Connect();
+    }
+
+    private void HandleConnected()
+    {
+        Debug.Log("Connected to MultiEI server.");
+
+        // Initialize player after connecting
+        var location = new Vector3(0, 0, 0);
+        var rotation = new Vector3(0, 0, 0);
+        _multiEIClient.InitializePlayer("default_avatar", location, rotation);
+    }
+
+    private void HandleDisconnected(string reason)
+    {
+        Debug.Log($"Disconnected from server: {reason}");
+    }
+
+    private void HandlePlayerInitialized(Player player)
+    {
+        Debug.Log($"Player initialized with ID: {player.PlayerId}");
+
+        // Optionally start or join an instance
+        _multiEIClient.StartInstance("DefaultWorld", "public");
+    }
+
+    private void HandleNetworkConnect(Player player)
+    {
+        Debug.Log($"Network Connect: Player {player.PlayerId} connected.");
+    }
+
+    private void HandleNetworkDisconnected(Player player)
+    {
+        Debug.Log($"Network Disconnected: Player {player.PlayerId} disconnected.");
+    }
+
+    private void HandleInstanceStarted(Instance instance)
+    {
+        Debug.Log($"Instance started with PIN: {instance.Pin}");
+    }
+
+    private void HandleInstanceDeleted(Instance instance)
+    {
+        Debug.Log($"Instance deleted: {instance.Pin}");
+    }
+
+    private void HandleMasterChanged(Instance instance)
+    {
+        Debug.Log($"Master changed to Player {instance.MasterId} for instance {instance.Pin}");
+    }
+
+    private void HandlePlayerJoined(Player player)
+    {
+        Debug.Log($"Player joined: {player.PlayerId}");
+    }
+
+    private void HandlePlayerLeft(Player player)
+    {
+        Debug.Log($"Player left: {player.PlayerId}");
+    }
+
+    private void HandlePlayerKicked(Player player)
+    {
+        Debug.Log($"Player kicked: {player.PlayerId}");
+    }
+
+    private void HandleObjectPositionUpdated(string objectId, Vector3 position, string ownerId)
+    {
+        Debug.Log($"Object {objectId} position updated by {ownerId} to ({position.X}, {position.Y}, {position.Z})");
+    }
+
+    private void HandleObjectOwnershipReverted(string objectId, string ownerId)
+    {
+        Debug.Log($"Object {objectId} ownership reverted to {ownerId}");
+    }
+
+    private void HandleObjectOwnerSet(string objectId, string ownerId)
+    {
+        Debug.Log($"Object {objectId} ownership set to {ownerId}");
+    }
+
+    private void HandlePlayerTalking(string playerId, bool isTalking, Vector3 position)
+    {
+        Debug.Log($"Player {playerId} is {(isTalking ? "talking" : "silent")} at position ({position.X}, {position.Y}, {position.Z})");
+    }
+
+    private void HandleVoteKickInitiated(string targetPlayerId, string voterId)
+    {
+        Debug.Log($"Vote kick initiated by {voterId} against {targetPlayerId}");
+    }
+
+    private void HandleVoteInstance(string targetPlayerId, string voterId, bool vote)
+    {
+        Debug.Log($"Player {voterId} voted {(vote ? "YES" : "NO")} to kick {targetPlayerId}");
+    }
+
+    private void HandleVoteReverted(string targetPlayerId)
+    {
+        Debug.Log($"Vote reverted for player {targetPlayerId}");
+    }
+
+    private void HandleAvatarChanged(string playerId, string newAvatarId)
+    {
+        Debug.Log($"Player {playerId} changed avatar to {newAvatarId}");
+    }
+
+    private void HandleAvatarElementChanged(string playerId, string elementId, object newValue)
+    {
+        Debug.Log($"Player {playerId} changed avatar element {elementId} to {newValue}");
+    }
+
+    private void HandlePortalDropped(string portalId, Vector3 position, Vector3 destination, string droppedBy)
+    {
+        Debug.Log($"Portal {portalId} dropped by Player {droppedBy} at position ({position.X}, {position.Y}, {position.Z}) to destination ({destination.X}, {destination.Y}, {destination.Z})");
+    }
+
+    private void HandleEmojiSent(string playerId, string emoji)
+    {
+        Debug.Log($"Player {playerId} sent emoji: {emoji}");
+    }
+
+    private void HandleMessageReceived(string playerId, string message)
+    {
+        Debug.Log($"Chat message from Player {playerId}: {message}");
+    }
+
+    private void HandlePlayerTyping(string playerId, bool isTyping, Vector3 position)
+    {
+        Debug.Log($"Player {playerId} is {(isTyping ? "typing" : "not typing")} at position ({position.X}, {position.Y}, {position.Z})");
+    }
+
+    private void HandlePlayerStopTyping(string playerId, bool isTyping, Vector3 position)
+    {
+        Debug.Log($"Player {playerId} stopped typing at position ({position.X}, {position.Y}, {position.Z})");
+    }
+
+    private void HandleError(string errorMessage)
+    {
+        Debug.LogError($"Error from server: {errorMessage}");
+    }
+
+    void Update()
+    {
+        // Example: Update player state every frame based on Unity's transform
+        if (_multiEIClient != null)
+        {
+            var location = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            var rotation = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
+            _multiEIClient.UpdatePlayerState(location, rotation);
+        }
+
+        // Example: Detect if player is talking (pseudo-code)
+        // bool isTalking = DetectIfPlayerIsTalking();
+        // Vector3 voicePosition = GetVoicePosition();
+        // _multiEIClient.PlayerTalking(isTalking, voicePosition);
+    }
+
+    void OnApplicationQuit()
+    {
+        if (_multiEIClient != null)
+        {
+            _multiEIClient.Disconnect();
+        }
+    }
+}

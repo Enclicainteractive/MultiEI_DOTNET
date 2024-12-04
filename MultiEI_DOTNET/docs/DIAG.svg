@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 800 700"
+   version="1.1"
+   id="svg48"
+   sodipodi:docname="DIAG.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview48"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.7328571"
+     inkscape:cx="399.91756"
+     inkscape:cy="212.65458"
+     inkscape:window-width="2560"
+     inkscape:window-height="1494"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg48" />
+  <!-- Background -->
+  <rect
+     width="800"
+     height="700"
+     fill="#ffffff"
+     id="rect1" />
+  <!-- Title -->
+  <text
+     x="400"
+     y="40"
+     text-anchor="middle"
+     font-size="24"
+     font-weight="bold"
+     fill="#333"
+     id="text1">MultiEI System Architecture</text>
+  <!-- Server Section -->
+  <rect
+     x="50"
+     y="80"
+     width="300"
+     height="400"
+     rx="10"
+     fill="#f0f0f0"
+     stroke="#666"
+     id="rect2" />
+  <text
+     x="200"
+     y="110"
+     text-anchor="middle"
+     font-size="18"
+     fill="#333"
+     id="text2">Node.js Server</text>
+  <!-- Server Components -->
+  <rect
+     x="70"
+     y="130"
+     width="260"
+     height="70"
+     rx="5"
+     fill="#b3e0ff"
+     stroke="#666"
+     id="rect3" />
+  <text
+     x="200"
+     y="165"
+     text-anchor="middle"
+     font-size="14"
+     id="text3">Socket.io Server</text>
+  <text
+     x="200"
+     y="185"
+     text-anchor="middle"
+     font-size="10"
+     id="text4">Port: 3000</text>
+  <!-- Server Modules -->
+  <rect
+     x="70"
+     y="220"
+     width="120"
+     height="240"
+     rx="5"
+     fill="#d9f2d9"
+     stroke="#666"
+     id="rect4" />
+  <text
+     x="130"
+     y="250"
+     text-anchor="middle"
+     font-size="12"
+     id="text5">Event Handlers</text>
+  <text
+     x="130"
+     y="270"
+     text-anchor="middle"
+     font-size="10"
+     id="text6">- Player Management</text>
+  <text
+     x="130"
+     y="290"
+     text-anchor="middle"
+     font-size="10"
+     id="text7">- Instance Management</text>
+  <text
+     x="130"
+     y="310"
+     text-anchor="middle"
+     font-size="10"
+     id="text8">- Object Management</text>
+  <text
+     x="130"
+     y="330"
+     text-anchor="middle"
+     font-size="10"
+     id="text9">- Voting System</text>
+  <text
+     x="130"
+     y="350"
+     text-anchor="middle"
+     font-size="10"
+     id="text10">- Avatar Management</text>
+  <text
+     x="130"
+     y="370"
+     text-anchor="middle"
+     font-size="10"
+     id="text11">- Portal Management</text>
+  <text
+     x="130"
+     y="390"
+     text-anchor="middle"
+     font-size="10"
+     id="text12">- Chat/Emoji System</text>
+  <rect
+     x="210"
+     y="220"
+     width="120"
+     height="240"
+     rx="5"
+     fill="#ffe6cc"
+     stroke="#666"
+     id="rect12" />
+  <text
+     x="270"
+     y="250"
+     text-anchor="middle"
+     font-size="12"
+     id="text13">Data Models</text>
+  <text
+     x="270"
+     y="270"
+     text-anchor="middle"
+     font-size="10"
+     id="text14">- Player</text>
+  <text
+     x="270"
+     y="290"
+     text-anchor="middle"
+     font-size="10"
+     id="text15">- Instance</text>
+  <text
+     x="270"
+     y="310"
+     text-anchor="middle"
+     font-size="10"
+     id="text16">- VoteKickRecord</text>
+  <text
+     x="270"
+     y="330"
+     text-anchor="middle"
+     font-size="10"
+     id="text17">- ChatMessage</text>
+  <text
+     x="270"
+     y="350"
+     text-anchor="middle"
+     font-size="10"
+     id="text18">- Emoji</text>
+  <!-- Client Section -->
+  <rect
+     x="450"
+     y="80"
+     width="300"
+     height="400"
+     rx="10"
+     fill="#f0f0f0"
+     stroke="#666"
+     id="rect18" />
+  <text
+     x="600"
+     y="110"
+     text-anchor="middle"
+     font-size="18"
+     fill="#333"
+     id="text19">C# Client Library</text>
+  <!-- Client Components -->
+  <rect
+     x="470"
+     y="130"
+     width="260"
+     height="70"
+     rx="5"
+     fill="#b3e0ff"
+     stroke="#666"
+     id="rect19" />
+  <text
+     x="600"
+     y="165"
+     text-anchor="middle"
+     font-size="14"
+     id="text20">Socket.io Client</text>
+  <text
+     x="600"
+     y="185"
+     text-anchor="middle"
+     font-size="10"
+     id="text21">.NET Framework 4.7+</text>
+  <rect
+     x="470"
+     y="220"
+     width="120"
+     height="240"
+     rx="5"
+     fill="#d9f2d9"
+     stroke="#666"
+     id="rect21" />
+  <text
+     x="530"
+     y="250"
+     text-anchor="middle"
+     font-size="12"
+     id="text22">Client Functions</text>
+  <text
+     x="530"
+     y="270"
+     text-anchor="middle"
+     font-size="10"
+     id="text23">- Connect/Disconnect</text>
+  <text
+     x="530"
+     y="290"
+     text-anchor="middle"
+     font-size="10"
+     id="text24">- Player Functions</text>
+  <text
+     x="530"
+     y="310"
+     text-anchor="middle"
+     font-size="10"
+     id="text25">- Instance Functions</text>
+  <text
+     x="530"
+     y="330"
+     text-anchor="middle"
+     font-size="10"
+     id="text26">- Object Functions</text>
+  <text
+     x="530"
+     y="350"
+     text-anchor="middle"
+     font-size="10"
+     id="text27">- Voting Functions</text>
+  <text
+     x="530"
+     y="370"
+     text-anchor="middle"
+     font-size="10"
+     id="text28">- Portal Functions</text>
+  <text
+     x="530"
+     y="390"
+     text-anchor="middle"
+     font-size="10"
+     id="text29">- Chat Functions</text>
+  <rect
+     x="610"
+     y="220"
+     width="120"
+     height="240"
+     rx="5"
+     fill="#ffe6cc"
+     stroke="#666"
+     id="rect29" />
+  <text
+     x="670"
+     y="250"
+     text-anchor="middle"
+     font-size="12"
+     id="text30">Event Handlers</text>
+  <text
+     x="670"
+     y="270"
+     text-anchor="middle"
+     font-size="10"
+     id="text31">- OnConnected</text>
+  <text
+     x="670"
+     y="290"
+     text-anchor="middle"
+     font-size="10"
+     id="text32">- OnPlayerJoined</text>
+  <text
+     x="670"
+     y="310"
+     text-anchor="middle"
+     font-size="10"
+     id="text33">- OnObjectUpdated</text>
+  <text
+     x="670"
+     y="330"
+     text-anchor="middle"
+     font-size="10"
+     id="text34">- OnVoteKick</text>
+  <text
+     x="670"
+     y="350"
+     text-anchor="middle"
+     font-size="10"
+     id="text35">- OnMessageReceived</text>
+  <text
+     x="670"
+     y="370"
+     text-anchor="middle"
+     font-size="10"
+     id="text36">- OnError</text>
+  <!-- Data Flow Arrows -->
+  <path
+     d="M350 160 L450 160"
+     stroke="#666"
+     stroke-width="2"
+     marker-end="url(#arrowhead)"
+     id="path36" />
+  <path
+     d="M450 180 L350 180"
+     stroke="#666"
+     stroke-width="2"
+     marker-end="url(#arrowhead)"
+     id="path37" />
+  <!-- Realtime Updates -->
+  <path
+     d="m 350.06859,198.85904 q 49.93241,21.84037 99.86483,0"
+     stroke="#4caf50"
+     stroke-width="2"
+     stroke-dasharray="5, 5"
+     marker-end="url(#arrowhead-green)"
+     id="path38"
+     style="fill:none" />
+  <!-- Legend Section -->
+  <rect
+     x="50"
+     y="500"
+     width="700"
+     height="180"
+     rx="10"
+     fill="#f8f8f8"
+     stroke="#666"
+     id="rect38" />
+  <text
+     x="70"
+     y="530"
+     font-size="16"
+     font-weight="bold"
+     fill="#333"
+     id="text38">Legend</text>
+  <!-- Components Legend -->
+  <rect
+     x="70"
+     y="550"
+     width="20"
+     height="20"
+     fill="#b3e0ff"
+     stroke="#666"
+     id="rect39" />
+  <text
+     x="100"
+     y="565"
+     font-size="12"
+     id="text39">Socket.io Components - Real-time WebSocket communication</text>
+  <rect
+     x="70"
+     y="580"
+     width="20"
+     height="20"
+     fill="#d9f2d9"
+     stroke="#666"
+     id="rect40" />
+  <text
+     x="100"
+     y="595"
+     font-size="12"
+     id="text40">Event Handlers/Functions - Business logic and functionality</text>
+  <rect
+     x="70"
+     y="610"
+     width="20"
+     height="20"
+     fill="#ffe6cc"
+     stroke="#666"
+     id="rect41" />
+  <text
+     x="100"
+     y="625"
+     font-size="12"
+     id="text41">Data Models/Events - Data structures and event definitions</text>
+  <!-- Arrow Legend -->
+  <path
+     d="M400 550 L450 550"
+     stroke="#666"
+     stroke-width="2"
+     marker-end="url(#arrowhead)"
+     id="path41" />
+  <text
+     x="470"
+     y="555"
+     font-size="12"
+     id="text42">Synchronous Communication</text>
+  <path
+     d="M400 580 L450 580"
+     stroke="#4CAF50"
+     stroke-width="2"
+     stroke-dasharray="5,5"
+     marker-end="url(#arrowhead-green)"
+     id="path42" />
+  <text
+     x="470"
+     y="585"
+     font-size="12"
+     id="text43">Asynchronous Real-time Updates</text>
+  <!-- Technical Specifications -->
+  <text
+     x="70"
+     y="650"
+     font-size="12"
+     fill="#666"
+     id="text44">Technical Specifications:</text>
+  <text
+     x="70"
+     y="670"
+     font-size="10"
+     fill="#666"
+     id="text45">• Server: Node.js v14+ with Socket.io v4.x</text>
+  <text
+     x="300"
+     y="670"
+     font-size="10"
+     fill="#666"
+     id="text46">• Client: .NET Framework 4.7+ with Socket.io-client</text>
+  <text
+     x="570.87988"
+     y="663.25281"
+     font-size="9.89078px"
+     fill="#666666"
+     id="text47"
+     transform="scale(0.98907763,1.011043)"
+     style="stroke-width:0.989078">• Protocol: WebSocket with Socket.io</text>
+  <!-- Arrow Markers -->
+  <defs
+     id="defs48">
+    <marker
+       id="arrowhead"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#666"
+         id="polygon47" />
+    </marker>
+    <marker
+       id="arrowhead-green"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#4CAF50"
+         id="polygon48" />
+    </marker>
+  </defs>
+</svg>

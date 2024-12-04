@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiEI (Multiplayer Enclica Interactive) Documentation</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: #fff;
+            padding: 30px 50px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+            header h1 {
+                font-size: 2.5em;
+                margin-bottom: 10px;
+                color: #2c3e50;
+            }
+
+            header p {
+                font-size: 1.2em;
+                color: #7f8c8d;
+            }
+
+        /* Table of Contents */
+        nav {
+            margin-bottom: 40px;
+        }
+
+            nav ul {
+                list-style: none;
+            }
+
+                nav ul li {
+                    margin-bottom: 10px;
+                }
+
+                    nav ul li a {
+                        text-decoration: none;
+                        color: #2980b9;
+                        font-weight: bold;
+                    }
+
+                        nav ul li a:hover {
+                            text-decoration: underline;
+                        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 40px;
+        }
+
+            section h2 {
+                font-size: 2em;
+                color: #34495e;
+                margin-bottom: 15px;
+                border-bottom: 2px solid #2980b9;
+                padding-bottom: 5px;
+            }
+
+            section h3 {
+                font-size: 1.5em;
+                color: #34495e;
+                margin-top: 25px;
+                margin-bottom: 10px;
+            }
+
+        /* Paragraphs */
+        p {
+            margin-bottom: 15px;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        table, th, td {
+            border: 1px solid #bdc3c7;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ecf0f1;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #bdc3c7;
+            color: #7f8c8d;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 20px;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            header p {
+                font-size: 1em;
+            }
+
+            section h2 {
+                font-size: 1.8em;
+            }
+
+            section h3 {
+                font-size: 1.3em;
+            }
+
+            table, th, td {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MultiEI (Multiplayer Enclica Interactive) Documentation</h1>
+            <p>Comprehensive Guide to MultiEI System Functionality and Communication</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#overview">1. Overview</a></li>
+                <li><a href="#communication-flow">2. Communication Flow</a></li>
+                <li><a href="#server-endpoints">3. Server Endpoints</a></li>
+                <li><a href="#csharp-client-library">4. C# Client Library</a></li>
+                <li><a href="#event-handling">5. Event Handling</a></li>
+                <li><a href="#data-models">6. Data Models</a></li>
+                <li><a href="#additional-considerations">7. Additional Considerations</a></li>
+                <li><a href="#troubleshooting">8. Troubleshooting</a></li>
+                <li><a href="#conclusion">9. Conclusion</a></li>
+            </ul>
+        </nav>
+
+        <section id="overview">
+            <h2>1. Overview</h2>
+            <p>
+                The **MultiEI (Multiplayer Enclica Interactive)** system is designed to facilitate real-time multiplayer interactions between a Node.js server and a C# .NET client library. Utilizing Socket.io for bidirectional communication, MultiEI enables functionalities such as player management, instance creation, voting systems, object interactions, avatar customization, portal mechanics, emoji sending, and chatbox interactions.
+            </p>
+            <p>
+                This documentation provides detailed descriptions of the server endpoints, the C# client library's functions, the communication protocols, and the data models used within the system.
+            </p>
+        </section>
+
+        <section id="communication-flow">
+            <h2>2. Communication Flow</h2>
+            <p>
+                MultiEI employs Socket.io to establish a persistent connection between the server and clients, enabling real-time, low-latency communication. The communication flow involves the exchange of events and data packets that trigger various functionalities within the system.
+            </p>
+            <p>
+                - **Server to Client**: The server emits events to clients to notify them of changes such as new players joining, instances being created or deleted, objects being updated, and chat messages being sent.
+            </p>
+            <p>
+                - **Client to Server**: Clients emit events to the server to perform actions like initializing a player, updating player state, sending messages, voting to kick a player, and customizing avatars.
+            </p>
+            <p>
+                The communication is event-driven, ensuring that both server and client can react to changes dynamically as they occur.
+            </p>
+        </section>
+
+        <section id="server-endpoints">
+            <h2>3. Server Endpoints</h2>
+            <p>
+                The server-side implementation manages various endpoints (events) that handle different aspects of the multiplayer experience. Below is a comprehensive list of server endpoints, their functionalities, and the parameters they accept.
+            </p>
+
+            <h3>3.1 Player Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>init</code></td>
+                        <td>Initializes a new player in the system.</td>
+                        <td>
+                            <ul>
+                                <li><strong>cosmeticId</strong> (string): Identifier for the player's avatar.</li>
+                                <li><strong>location</strong> (object): Player's initial position in the game world.</li>
+                                <li><strong>rotation</strong> (object): Player's initial rotation in the game world.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>updatePlayerState</code></td>
+                        <td>Updates the player's location and rotation.</td>
+                        <td>
+                            <ul>
+                                <li><strong>location</strong> (object): Updated position.</li>
+                                <li><strong>rotation</strong> (object): Updated rotation.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>updateCosmeticId</code></td>
+                        <td>Updates the player's avatar identifier.</td>
+                        <td>
+                            <ul>
+                                <li><strong>cosmeticId</strong> (string): New avatar ID.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>playerTalking</code></td>
+                        <td>Updates the player's talking status and voice position.</td>
+                        <td>
+                            <ul>
+                                <li><strong>isTalking</strong> (boolean): Indicates if the player is speaking.</li>
+                                <li><strong>position</strong> (object): Player's position for voice data.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>pickupItem</code></td>
+                        <td>Handles the event when a player picks up an item.</td>
+                        <td>
+                            <ul>
+                                <li><strong>itemId</strong> (string): Identifier of the picked item.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>3.2 Instance Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>startInstance</code></td>
+                        <td>Creates a new game instance.</td>
+                        <td>
+                            <ul>
+                                <li><strong>world</strong> (string): The game world where the instance is created.</li>
+                                <li><strong>type</strong> (string): Type of instance (e.g., public, invite-only).</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>joinInstance</code></td>
+                        <td>Allows a player to join an existing instance using a PIN.</td>
+                        <td>
+                            <ul>
+                                <li><strong>pin</strong> (string): The PIN of the instance to join.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>playerKicked</code></td>
+                        <td>Kicks a player from a specified instance.</td>
+                        <td>
+                            <ul>
+                                <li><strong>pin</strong> (string): The PIN of the instance.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>onVoteReverted</code></td>
+                        <td>Reverts a vote kick action.</td>
+                        <td>
+                            <ul>
+                                <li><strong>targetPlayerId</strong> (string): ID of the player whose vote is reverted.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>3.3 Object Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>updateObjectPosition</code></td>
+                        <td>Updates the position of an object within an instance.</td>
+                        <td>
+                            <ul>
+                                <li><strong>objectId</strong> (string): Identifier of the object.</li>
+                                <li><strong>position</strong> (object): New position of the object.</li>
+                                <li><strong>ownerId</strong> (string): ID of the player owning the object.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>setObjectOwner</code></td>
+                        <td>Sets or changes the ownership of an object.</td>
+                        <td>
+                            <ul>
+                                <li><strong>objectId</strong> (string): Identifier of the object.</li>
+                                <li><strong>ownerId</strong> (string): ID of the new owner.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>3.4 Voting System</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>voteKick</code></td>
+                        <td>Initiates a vote to kick a specific player.</td>
+                        <td>
+                            <ul>
+                                <li><strong>targetPlayerId</strong> (string): ID of the player to be kicked.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>voteInstance</code></td>
+                        <td>Casts a vote in an ongoing vote kick.</td>
+                        <td>
+                            <ul>
+                                <li><strong>targetPlayerId</strong> (string): ID of the player being voted against.</li>
+                                <li><strong>vote</strong> (boolean): Vote value (true for yes, false for no).</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>3.5 Avatar Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>changeAvatar</code></td>
+                        <td>Changes the player's avatar.</td>
+                        <td>
+                            <ul>
+                                <li><strong>newAvatarId</strong> (string): Identifier of the new avatar.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>avatarElementChanged</code></td>
+                        <td>Modifies a specific element of the player's avatar.</td>
+                        <td>
+                            <ul>
+                                <li><strong>elementId</strong> (string): Identifier of the avatar element to change.</li>
+                                <li><strong>newValue</strong> (object): New value or parameters for the avatar element.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>3.6 Portal Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>dropPortal</code></td>
+                        <td>Allows a player to drop a portal within the game world.</td>
+                        <td>
+                            <ul>
+                                <li><strong>portalId</strong> (string): Identifier of the portal.</li>
+                                <li><strong>position</strong> (object): Position where the portal is dropped.</li>
+                                <li><strong>destination</strong> (object): Destination position the portal leads to.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>3.7 Emoji and Chatbox Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>sendEmoji</code></td>
+                        <td>Enables a player to send an emoji to others in the instance.</td>
+                        <td>
+                            <ul>
+                                <li><strong>emoji</strong> (string): The emoji symbol or identifier.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>sendMessage</code></td>
+                        <td>Allows a player to send a chat message to others in the instance.</td>
+                        <td>
+                            <ul>
+                                <li><strong>message</strong> (string): The chat message content.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>typing</code></td>
+                        <td>Indicates that a player has started typing a message.</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td><code>stopTyping</code></td>
+                        <td>Indicates that a player has stopped typing a message.</td>
+                        <td>None</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="csharp-client-library">
+            <h2>4. C# Client Library</h2>
+            <p>
+                The C# client library, named **MultiEI**, serves as a bridge between the client application (such as a Unity game) and the MultiEI server. It encapsulates all necessary functions to interact with the server endpoints, handle real-time events, and manage data models seamlessly.
+            </p>
+
+            <h3>4.1 Project Structure</h3>
+            <p>The C# client library follows a structured project layout to ensure maintainability and scalability:</p>
+            <ul>
+                <li><strong>Models</strong>: Contains data models representing players, instances, chat messages, emojis, etc.</li>
+                <li><strong>Interfaces</strong>: Defines interfaces outlining the client's capabilities and event handlers.</li>
+                <li><strong>Utilities</strong>: Includes helper classes and methods, such as vector representations and utility functions.</li>
+                <li><strong>Client</strong>: Houses the main client class that manages Socket.io connections and interactions.</li>
+                <li><strong>ExampleUsage</strong>: Provides sample usage of the client library within a C# application.</li>
+            </ul>
+        </section>
+
+        <section id="event-handling">
+            <h2>5. Event Handling</h2>
+            <p>
+                Both the server and the C# client library utilize event-driven architectures to handle real-time interactions. Below is an overview of the events managed by each side.
+            </p>
+
+            <h3>5.1 Server-Side Events</h3>
+            <p>
+                The server listens for events emitted by clients and responds by performing actions or broadcasting events to other clients. Key server-side events include:
+            </p>
+            <ul>
+                <li><strong>Player Management</strong>: <code>init</code>, <code>updatePlayerState</code>, <code>updateCosmeticId</code>, <code>playerTalking</code>, <code>pickupItem</code></li>
+                <li><strong>Instance Management</strong>: <code>startInstance</code>, <code>joinInstance</code>, <code>playerKicked</code>, <code>onVoteReverted</code></li>
+                <li><strong>Object Management</strong>: <code>updateObjectPosition</code>, <code>setObjectOwner</code></li>
+                <li><strong>Voting System</strong>: <code>voteKick</code>, <code>voteInstance</code></li>
+                <li><strong>Avatar Management</strong>: <code>changeAvatar</code>, <code>avatarElementChanged</code></li>
+                <li><strong>Portal Management</strong>: <code>dropPortal</code></li>
+                <li><strong>Emoji and Chatbox</strong>: <code>sendEmoji</code>, <code>sendMessage</code>, <code>typing</code>, <code>stopTyping</code></li>
+            </ul>
+
+            <h3>5.2 Client-Side Events</h3>
+            <p>
+                The C# client library listens for events emitted by the server and responds accordingly. Key client-side events include:
+            </p>
+            <ul>
+                <li><strong>Connection Events</strong>: <code>OnConnected</code>, <code>OnDisconnected</code></li>
+                <li><strong>Player Events</strong>: <code>OnPlayerInitialized</code>, <code>OnNetworkConnect</code>, <code>OnNetworkDisconnected</code></li>
+                <li><strong>Instance Events</strong>: <code>OnInstanceStarted</code>, <code>OnInstanceDeleted</code>, <code>OnMasterChanged</code></li>
+                <li><strong>Player Instance Events</strong>: <code>OnPlayerJoined</code>, <code>OnPlayerLeft</code>, <code>OnPlayerKicked</code></li>
+                <li><strong>Object Events</strong>: <code>OnObjectPositionUpdated</code>, <code>OnObjectOwnershipReverted</code>, <code>OnObjectOwnerSet</code></li>
+                <li><strong>Voice Events</strong>: <code>OnPlayerTalking</code></li>
+                <li><strong>Voting Events</strong>: <code>OnVoteKickInitiated</code>, <code>OnVoteInstance</code>, <code>OnVoteReverted</code></li>
+                <li><strong>Avatar Events</strong>: <code>OnAvatarChanged</code>, <code>OnAvatarElementChanged</code></li>
+                <li><strong>Portal Events</strong>: <code>OnPortalDropped</code></li>
+                <li><strong>Emoji Events</strong>: <code>OnEmojiSent</code></li>
+                <li><strong>Chatbox Events</strong>: <code>OnMessageReceived</code>, <code>OnPlayerTyping</code>, <code>OnPlayerStopTyping</code></li>
+                <li><strong>Error Events</strong>: <code>OnError</code></li>
+            </ul>
+        </section>
+
+        <section id="data-models">
+            <h2>6. Data Models</h2>
+            <p>
+                Data models represent the structured data exchanged between the server and clients. Below are the primary data models used within the MultiEI system.
+            </p>
+
+            <h3>6.1 Player</h3>
+            <p>
+                Represents a player within the system.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>PlayerId</code></td>
+                        <td>string</td>
+                        <td>Unique identifier for the player.</td>
+                    </tr>
+                    <tr>
+                        <td><code>CosmeticId</code></td>
+                        <td>string</td>
+                        <td>Identifier for the player's avatar.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Location</code></td>
+                        <td><code>Vector3</code></td>
+                        <td>Player's position in the game world.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Rotation</code></td>
+                        <td><code>Vector3</code></td>
+                        <td>Player's rotation in the game world.</td>
+                    </tr>
+                    <tr>
+                        <td><code>VoiceData</code></td>
+                        <td><code>VoiceData</code></td>
+                        <td>Information about the player's voice status.</td>
+                    </tr>
+                    <tr>
+                        <td><code>PickedItem</code></td>
+                        <td>string</td>
+                        <td>Identifier of the item currently picked up by the player.</td>
+                    </tr>
+                    <tr>
+                        <td><code>AvatarElements</code></td>
+                        <td><code>AvatarElements</code></td>
+                        <td>Custom elements of the player's avatar.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>6.2 Instance</h3>
+            <p>
+                Represents a game instance or session.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Pin</code></td>
+                        <td>string</td>
+                        <td>Unique PIN identifier for the instance.</td>
+                    </tr>
+                    <tr>
+                        <td><code>MasterId</code></td>
+                        <td>string</td>
+                        <td>Player ID of the instance master.</td>
+                    </tr>
+                    <tr>
+                        <td><code>World</code></td>
+                        <td>string</td>
+                        <td>The game world associated with the instance.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Type</code></td>
+                        <td>string</td>
+                        <td>Type of the instance (e.g., public, invite-only).</td>
+                    </tr>
+                    <tr>
+                        <td><code>Objects</code></td>
+                        <td>Dictionary&lt;string, InstanceObject&gt;</td>
+                        <td>Collection of objects within the instance.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>6.3 VoteKickRecord</h3>
+            <p>
+                Tracks vote kick records to enforce rate limiting.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>TargetPlayerId</code></td>
+                        <td>string</td>
+                        <td>ID of the player being voted against.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Voters</code></td>
+                        <td>HashSet&lt;string&gt;</td>
+                        <td>Set of player IDs who have voted.</td>
+                    </tr>
+                    <tr>
+                        <td><code>LastVote</code></td>
+                        <td>long</td>
+                        <td>Timestamp of the last vote.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Votes</code></td>
+                        <td><code>VoteCounts</code></td>
+                        <td>Counts of 'yes' and 'no' votes.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>6.4 ChatMessage</h3>
+            <p>
+                Represents a chat message sent by a player.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>PlayerId</code></td>
+                        <td>string</td>
+                        <td>ID of the player sending the message.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Message</code></td>
+                        <td>string</td>
+                        <td>Content of the chat message.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>6.5 Emoji</h3>
+            <p>
+                Represents an emoji sent by a player.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>PlayerId</code></td>
+                        <td>string</td>
+                        <td>ID of the player sending the emoji.</td>
+                    </tr>
+                    <tr>
+                        <td><code>EmojiSymbol</code></td>
+                        <td>string</td>
+                        <td>The emoji character or identifier.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="csharp-client-library">
+            <h2>4. C# Client Library</h2>
+            <p>
+                The **MultiEI** C# client library provides a set of functions and event handlers that enable client applications to interact with the MultiEI server seamlessly. Below are the primary functionalities and their corresponding functions.
+            </p>
+
+            <h3>4.1 Connection Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Connect()</code></td>
+                        <td>Establishes a connection to the MultiEI server.</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td><code>Disconnect()</code></td>
+                        <td>Terminates the connection with the MultiEI server.</td>
+                        <td>None</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.2 Player Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>InitializePlayer(string cosmeticId, Vector3 location, Vector3 rotation)</code></td>
+                        <td>Initializes a new player with specified cosmetic ID, location, and rotation.</td>
+                        <td>
+                            <ul>
+                                <li><strong>cosmeticId</strong> (string): Identifier for the player's avatar.</li>
+                                <li><strong>location</strong> (Vector3): Player's initial position.</li>
+                                <li><strong>rotation</strong> (Vector3): Player's initial rotation.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>UpdatePlayerState(Vector3 location, Vector3 rotation)</code></td>
+                        <td>Updates the player's current location and rotation.</td>
+                        <td>
+                            <ul>
+                                <li><strong>location</strong> (Vector3): New position of the player.</li>
+                                <li><strong>rotation</strong> (Vector3): New rotation of the player.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>UpdateCosmeticId(string cosmeticId)</code></td>
+                        <td>Updates the player's avatar identifier.</td>
+                        <td>
+                            <ul>
+                                <li><strong>cosmeticId</strong> (string): New avatar ID.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>PlayerTalking(bool isTalking, Vector3 position)</code></td>
+                        <td>Updates the player's talking status and voice position.</td>
+                        <td>
+                            <ul>
+                                <li><strong>isTalking</strong> (bool): Indicates if the player is speaking.</li>
+                                <li><strong>position</strong> (Vector3): Player's voice position.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>PickupItem(string itemId)</code></td>
+                        <td>Signals that the player has picked up an item.</td>
+                        <td>
+                            <ul>
+                                <li><strong>itemId</strong> (string): Identifier of the picked item.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.3 Instance Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>StartInstance(string world, string type)</code></td>
+                        <td>Creates a new game instance with specified world and type.</td>
+                        <td>
+                            <ul>
+                                <li><strong>world</strong> (string): The game world for the instance.</li>
+                                <li><strong>type</strong> (string): Type of the instance (e.g., public, invite-only).</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>JoinInstance(string pin)</code></td>
+                        <td>Joins an existing game instance using its PIN.</td>
+                        <td>
+                            <ul>
+                                <li><strong>pin</strong> (string): PIN of the instance to join.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>PlayerKicked(string pin)</code></td>
+                        <td>Kicks a player from a specified instance.</td>
+                        <td>
+                            <ul>
+                                <li><strong>pin</strong> (string): PIN of the instance.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>RevertVote(string targetPlayerId)</code></td>
+                        <td>Reverts a vote kick action against a specified player.</td>
+                        <td>
+                            <ul>
+                                <li><strong>targetPlayerId</strong> (string): ID of the player whose vote is being reverted.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.4 Object Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>UpdateObjectPosition(string objectId, Vector3 position, string ownerId)</code></td>
+                        <td>Updates the position and ownership of an object within an instance.</td>
+                        <td>
+                            <ul>
+                                <li><strong>objectId</strong> (string): Identifier of the object.</li>
+                                <li><strong>position</strong> (Vector3): New position of the object.</li>
+                                <li><strong>ownerId</strong> (string): ID of the player owning the object.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>SetObjectOwner(string objectId, string ownerId)</code></td>
+                        <td>Sets or changes the ownership of a specified object.</td>
+                        <td>
+                            <ul>
+                                <li><strong>objectId</strong> (string): Identifier of the object.</li>
+                                <li><strong>ownerId</strong> (string): ID of the new owner.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.5 Voting System</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>VoteKick(string targetPlayerId)</code></td>
+                        <td>Initiates a vote to kick a specific player from the instance.</td>
+                        <td>
+                            <ul>
+                                <li><strong>targetPlayerId</strong> (string): ID of the player to be kicked.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>VoteInstance(string targetPlayerId, bool vote)</code></td>
+                        <td>Casts a vote (yes/no) in an ongoing vote kick.</td>
+                        <td>
+                            <ul>
+                                <li><strong>targetPlayerId</strong> (string): ID of the player being voted against.</li>
+                                <li><strong>vote</strong> (bool): Vote value (true for yes, false for no).</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.6 Avatar Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ChangeAvatar(string newAvatarId)</code></td>
+                        <td>Changes the player's avatar to a new one.</td>
+                        <td>
+                            <ul>
+                                <li><strong>newAvatarId</strong> (string): Identifier of the new avatar.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>AvatarElementChanged(string elementId, object newValue)</code></td>
+                        <td>Modifies a specific element of the player's avatar.</td>
+                        <td>
+                            <ul>
+                                <li><strong>elementId</strong> (string): Identifier of the avatar element.</li>
+                                <li><strong>newValue</strong> (object): New value or parameters for the avatar element.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.7 Portal Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>DropPortal(string portalId, Vector3 position, Vector3 destination)</code></td>
+                        <td>Allows a player to drop a portal in the game world.</td>
+                        <td>
+                            <ul>
+                                <li><strong>portalId</strong> (string): Identifier of the portal.</li>
+                                <li><strong>position</strong> (Vector3): Position where the portal is dropped.</li>
+                                <li><strong>destination</strong> (Vector3): Destination position the portal leads to.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.8 Emoji and Chatbox Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>SendEmoji(string emoji)</code></td>
+                        <td>Sends an emoji to other players within the instance.</td>
+                        <td>
+                            <ul>
+                                <li><strong>emoji</strong> (string): The emoji character or identifier.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>SendMessage(string message)</code></td>
+                        <td>Sends a chat message to other players within the instance.</td>
+                        <td>
+                            <ul>
+                                <li><strong>message</strong> (string): The content of the chat message.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>Typing()</code></td>
+                        <td>Indicates that the player has started typing a chat message.</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td><code>StopTyping()</code></td>
+                        <td>Indicates that the player has stopped typing a chat message.</td>
+                        <td>None</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="event-handling">
+            <h2>5. Event Handling</h2>
+            <p>
+                The MultiEI system relies on an event-driven architecture to handle real-time interactions. Both the server and the C# client library emit and listen for specific events to facilitate communication.
+            </p>
+
+            <h3>5.1 Server-Side Events</h3>
+            <p>
+                The server emits events to inform clients about various actions and state changes. Key server-side events include:
+            </p>
+            <ul>
+                <li><strong>onNetworkConnect</strong>: Notifies all clients when a new player connects.</li>
+                <li><strong>onNetworkDisconnected</strong>: Notifies all clients when a player disconnects.</li>
+                <li><strong>onPlayerInitialized</strong>: Confirms player initialization.</li>
+                <li><strong>instanceStarted</strong>: Informs clients when a new instance is created.</li>
+                <li><strong>instanceDeleted</strong>: Informs clients when an instance is deleted.</li>
+                <li><strong>onMasterChanged</strong>: Notifies clients when the master of an instance changes.</li>
+                <li><strong>onPlayerJoined</strong>: Informs clients when a player joins an instance.</li>
+                <li><strong>onPlayerLeft</strong>: Informs clients when a player leaves an instance.</li>
+                <li><strong>playerKicked</strong>: Notifies clients when a player is kicked from an instance.</li>
+                <li><strong>onObjectPositionUpdated</strong>: Updates clients about changes in object positions.</li>
+                <li><strong>onObjectOwnershipReverted</strong>: Notifies clients when object ownership is reverted.</li>
+                <li><strong>onObjectOwnerSet</strong>: Notifies clients when object ownership is set or changed.</li>
+                <li><strong>onPlayerTalking</strong>: Updates clients about a player's talking status.</li>
+                <li><strong>onVoteKick</strong>: Initiates a vote to kick a player.</li>
+                <li><strong>onVoteInstance</strong>: Handles voting actions within an instance.</li>
+                <li><strong>onVoteReverted</strong>: Reverts a vote kick action.</li>
+                <li><strong>onAvatarChanged</strong>: Notifies clients about a player's avatar change.</li>
+                <li><strong>onAvatarElementChanged</strong>: Notifies clients about changes to specific avatar elements.</li>
+                <li><strong>onPortalDropped</strong>: Informs clients when a portal is dropped.</li>
+                <li><strong>onEmojiSent</strong>: Notifies clients about an emoji sent by a player.</li>
+                <li><strong>onMessageReceived</strong>: Delivers chat messages to clients.</li>
+                <li><strong>onPlayerTyping</strong>: Indicates that a player is typing a message.</li>
+                <li><strong>onPlayerStopTyping</strong>: Indicates that a player has stopped typing a message.</li>
+                <li><strong>error</strong>: Communicates errors to clients.</li>
+            </ul>
+
+            <h3>5.2 Client-Side Events</h3>
+            <p>
+                The C# client library listens for server-emitted events and triggers corresponding handlers within the client application. Key client-side events include:
+            </p>
+            <ul>
+                <li><strong>OnConnected</strong>: Triggered when the client successfully connects to the server.</li>
+                <li><strong>OnDisconnected</strong>: Triggered when the client disconnects from the server.</li>
+                <li><strong>OnPlayerInitialized</strong>: Triggered upon successful player initialization.</li>
+                <li><strong>OnNetworkConnect</strong>: Triggered when a new player connects to the network.</li>
+                <li><strong>OnNetworkDisconnected</strong>: Triggered when a player disconnects from the network.</li>
+                <li><strong>OnInstanceStarted</strong>: Triggered when a new instance is started.</li>
+                <li><strong>OnInstanceDeleted</strong>: Triggered when an instance is deleted.</li>
+                <li><strong>OnMasterChanged</strong>: Triggered when the master of an instance changes.</li>
+                <li><strong>OnPlayerJoined</strong>: Triggered when a player joins an instance.</li>
+                <li><strong>OnPlayerLeft</strong>: Triggered when a player leaves an instance.</li>
+                <li><strong>OnPlayerKicked</strong>: Triggered when a player is kicked from an instance.</li>
+                <li><strong>OnObjectPositionUpdated</strong>: Triggered when an object's position is updated.</li>
+                <li><strong>OnObjectOwnershipReverted</strong>: Triggered when object ownership is reverted.</li>
+                <li><strong>OnObjectOwnerSet</strong>: Triggered when object ownership is set or changed.</li>
+                <li><strong>OnPlayerTalking</strong>: Triggered when a player's talking status changes.</li>
+                <li><strong>OnVoteKickInitiated</strong>: Triggered when a vote kick is initiated.</li>
+                <li><strong>OnVoteInstance</strong>: Triggered when a vote is cast within an instance.</li>
+                <li><strong>OnVoteReverted</strong>: Triggered when a vote kick is reverted.</li>
+                <li><strong>OnAvatarChanged</strong>: Triggered when a player's avatar changes.</li>
+                <li><strong>OnAvatarElementChanged</strong>: Triggered when a specific avatar element is changed.</li>
+                <li><strong>OnPortalDropped</strong>: Triggered when a portal is dropped.</li>
+                <li><strong>OnEmojiSent</strong>: Triggered when an emoji is sent by a player.</li>
+                <li><strong>OnMessageReceived</strong>: Triggered when a chat message is received.</li>
+                <li><strong>OnPlayerTyping</strong>: Triggered when a player starts typing a message.</li>
+                <li><strong>OnPlayerStopTyping</strong>: Triggered when a player stops typing a message.</li>
+                <li><strong>OnError</strong>: Triggered when an error is received from the server.</li>
+            </ul>
+        </section>
+
+        <section id="data-models">
+            <h2>6. Data Models</h2>
+            <p>
+                Data models define the structure of the data exchanged between the server and clients. They ensure consistent data handling and facilitate seamless communication.
+            </p>
+
+            <h3>6.1 Player</h3>
+            <p>
+                Represents a player within the MultiEI system.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>PlayerId</code></td>
+                        <td>string</td>
+                        <td>Unique identifier for the player.</td>
+                    </tr>
+                    <tr>
+                        <td><code>CosmeticId</code></td>
+                        <td>string</td>
+                        <td>Identifier for the player's avatar.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Location</code></td>
+                        <td><code>Vector3</code></td>
+                        <td>Player's position in the game world.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Rotation</code></td>
+                        <td><code>Vector3</code></td>
+                        <td>Player's rotation in the game world.</td>
+                    </tr>
+                    <tr>
+                        <td><code>VoiceData</code></td>
+                        <td><code>VoiceData</code></td>
+                        <td>Information about the player's voice status.</td>
+                    </tr>
+                    <tr>
+                        <td><code>PickedItem</code></td>
+                        <td>string</td>
+                        <td>Identifier of the item currently picked up by the player.</td>
+                    </tr>
+                    <tr>
+                        <td><code>AvatarElements</code></td>
+                        <td><code>AvatarElements</code></td>
+                        <td>Custom elements of the player's avatar.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>6.2 Instance</h3>
+            <p>
+                Represents a game instance or session within the MultiEI system.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Pin</code></td>
+                        <td>string</td>
+                        <td>Unique PIN identifier for the instance.</td>
+                    </tr>
+                    <tr>
+                        <td><code>MasterId</code></td>
+                        <td>string</td>
+                        <td>Player ID of the instance master.</td>
+                    </tr>
+                    <tr>
+                        <td><code>World</code></td>
+                        <td>string</td>
+                        <td>The game world associated with the instance.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Type</code></td>
+                        <td>string</td>
+                        <td>Type of the instance (e.g., public, invite-only).</td>
+                    </tr>
+                    <tr>
+                        <td><code>Objects</code></td>
+                        <td>Dictionary&lt;string, InstanceObject&gt;</td>
+                        <td>Collection of objects within the instance.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>6.3 VoteKickRecord</h3>
+            <p>
+                Tracks vote kick records to enforce rate limiting and manage voting outcomes.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>TargetPlayerId</code></td>
+                        <td>string</td>
+                        <td>ID of the player being voted against.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Voters</code></td>
+                        <td>HashSet&lt;string&gt;</td>
+                        <td>Set of player IDs who have voted.</td>
+                    </tr>
+                    <tr>
+                        <td><code>LastVote</code></td>
+                        <td>long</td>
+                        <td>Timestamp of the last vote.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Votes</code></td>
+                        <td><code>VoteCounts</code></td>
+                        <td>Counts of 'yes' and 'no' votes.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>6.4 ChatMessage</h3>
+            <p>
+                Represents a chat message sent by a player.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>PlayerId</code></td>
+                        <td>string</td>
+                        <td>ID of the player sending the message.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Message</code></td>
+                        <td>string</td>
+                        <td>Content of the chat message.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>6.5 Emoji</h3>
+            <p>
+                Represents an emoji sent by a player.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>PlayerId</code></td>
+                        <td>string</td>
+                        <td>ID of the player sending the emoji.</td>
+                    </tr>
+                    <tr>
+                        <td><code>EmojiSymbol</code></td>
+                        <td>string</td>
+                        <td>The emoji character or identifier.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="additional-considerations">
+            <h2>7. Additional Considerations</h2>
+            <p>
+                To ensure the MultiEI system operates efficiently and securely, consider the following aspects during implementation:
+            </p>
+            <ul>
+                <li><strong>Thread Safety</strong>: Ensure that interactions with the client application, especially in Unity, are performed on the main thread to prevent concurrency issues.</li>
+                <li><strong>Error Handling</strong>: Implement robust error handling mechanisms to gracefully manage unexpected scenarios and provide meaningful feedback to users.</li>
+                <li><strong>Reconnection Logic</strong>: Incorporate strategies to handle disconnections and automatic reconnections to maintain a stable connection.</li>
+                <li><strong>Authentication</strong>: If required, implement authentication protocols to verify the identity of players and secure the communication channels.</li>
+                <li><strong>Scalability</strong>: Design the system to handle a growing number of players and instances without compromising performance.</li>
+                <li><strong>Security</strong>: Validate and sanitize all incoming data to protect against malicious inputs and potential security threats.</li>
+                <li><strong>Logging</strong>: Maintain comprehensive logs for monitoring, debugging, and auditing purposes.</li>
+                <li><strong>Performance Optimization</strong>: Continuously monitor and optimize the performance of both server and client to ensure a smooth multiplayer experience.</li>
+            </ul>
+        </section>
+
+        <section id="troubleshooting">
+            <h2>8. Troubleshooting</h2>
+            <p>
+                Encountering issues during the setup or usage of the MultiEI system? Below are common problems and their solutions:
+            </p>
+            <h3>8.1 Connection Issues</h3>
+            <ul>
+                <li><strong>Problem:</strong> Client fails to connect to the server.</li>
+                <li>
+                    <strong>Solution:</strong>
+                    <ul>
+                        <li>Verify that the server is running and accessible at the specified URL and port.</li>
+                        <li>Check firewall settings to ensure that the port used by Socket.io is open.</li>
+                        <li>Ensure that the client is using the correct server URL.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>8.2 Event Not Triggering</h3>
+            <ul>
+                <li><strong>Problem:</strong> Certain events are not being triggered or received.</li>
+                <li>
+                    <strong>Solution:</strong>
+                    <ul>
+                        <li>Confirm that both server and client are listening and emitting the correct event names.</li>
+                        <li>Check for any errors in the console logs on both server and client sides.</li>
+                        <li>Ensure that the client is properly connected to the server before emitting or listening for events.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>8.3 Data Synchronization Issues</h3>
+            <ul>
+                <li><strong>Problem:</strong> Data inconsistencies between server and clients.</li>
+                <li>
+                    <strong>Solution:</strong>
+                    <ul>
+                        <li>Ensure that data models are correctly serialized and deserialized.</li>
+                        <li>Implement validation checks on both server and client to maintain data integrity.</li>
+                        <li>Monitor network latency and optimize data transmission where necessary.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section id="conclusion">
+            <h2>9. Conclusion</h2>
+            <p>
+                The **MultiEI (Multiplayer Enclica Interactive)** system offers a robust framework for developing real-time multiplayer applications using Node.js and C# .NET. By leveraging Socket.io for communication and providing a comprehensive C# client library, MultiEI simplifies the process of creating engaging multiplayer experiences.
+            </p>
+            <p>
+                This documentation serves as a foundational guide to understanding the system's functionalities, server endpoints, client functions, and the data models that underpin them. For further customization and advanced features, refer to the respective sections and consider the additional considerations outlined to enhance the system's reliability and performance.
+            </p>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Enclica Interactive. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
